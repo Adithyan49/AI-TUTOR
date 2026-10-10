@@ -1,0 +1,69 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Learner profile including XP, streak, completed modules, and learning path preferences.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-zA-Z0-9_\\-]+$", "description": "Unique user ID matching auth.uid" },
+        "email": { "type": "string", "maxLength": 128, "description": "User email address" },
+        "displayName": { "type": "string", "maxLength": 100, "description": "Display name of the learner" },
+        "learningStreak": { "type": "number", "description": "Consecutive days active" },
+        "totalXp": { "type": "number", "description": "Total quantum XP accumulated" },
+        "selectedLearningPath": { "type": "string", "enum": ["beginner", "intermediate", "advanced"], "description": "Curriculum track" },
+        "completedLessons": { "type": "array", "description": "List of completed lesson module IDs" },
+        "completedChallenges": { "type": "array", "description": "List of passed coding challenge IDs" },
+        "createdAt": { "type": "string", "description": "Creation timestamp" },
+        "updatedAt": { "type": "string", "description": "Last update timestamp" }
+      },
+      "required": ["id", "email", "displayName", "learningStreak", "totalXp", "selectedLearningPath", "completedLessons", "completedChallenges", "createdAt", "updatedAt"]
+    },
+    "UserCircuit": {
+      "title": "UserCircuit",
+      "description": "User saved quantum circuit models with gates timeline.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-zA-Z0-9_\\-]+$", "description": "Circuit identifier" },
+        "userId": { "type": "string", "pattern": "^[a-zA-Z0-9_\\-]+$", "description": "Owner user ID" },
+        "name": { "type": "string", "maxLength": 100, "description": "Human readable circuit title" },
+        "numQubits": { "type": "number", "description": "Number of qubit wires (1 to 6)" },
+        "gatesJson": { "type": "string", "maxLength": 50000, "description": "Serialized circuit gates payload" },
+        "description": { "type": "string", "maxLength": 500, "description": "Circuit notes and documentation" },
+        "createdAt": { "type": "string", "description": "Creation timestamp" },
+        "updatedAt": { "type": "string", "description": "Last update timestamp" }
+      },
+      "required": ["id", "userId", "name", "numQubits", "gatesJson", "description", "createdAt", "updatedAt"]
+    },
+    "SharedExperiment": {
+      "title": "SharedExperiment",
+      "description": "Community collaborative quantum algorithms and peer reviewed circuits.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-zA-Z0-9_\\-]+$", "description": "Shared experiment ID" },
+        "authorId": { "type": "string", "pattern": "^[a-zA-Z0-9_\\-]+$", "description": "Author UID" },
+        "authorName": { "type": "string", "maxLength": 100, "description": "Author name" },
+        "title": { "type": "string", "maxLength": 100, "description": "Experiment title" },
+        "description": { "type": "string", "maxLength": 1000, "description": "Experiment abstract" },
+        "circuitJson": { "type": "string", "maxLength": 50000, "description": "Serialized circuit representation" },
+        "likesCount": { "type": "number", "description": "Upvotes from peers" },
+        "createdAt": { "type": "string", "description": "Publication timestamp" },
+        "updatedAt": { "type": "string", "description": "Last modified timestamp" }
+      },
+      "required": ["id", "authorId", "authorName", "title", "description", "circuitJson", "likesCount", "createdAt", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "Learner progress and profile records"
+    },
+    "/users/{userId}/circuits/{circuitId}": {
+      "schema": "UserCircuit",
+      "description": "Subcollection of circuits created by user"
+    },
+    "/shared_experiments/{experimentId}": {
+      "schema": "SharedExperiment",
+      "description": "Public repository of quantum circuits shared with the community"
+    }
+  }
+}

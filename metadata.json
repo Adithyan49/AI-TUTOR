@@ -1,0 +1,6 @@
+{
+  "name": "AI Quantum Tutor",
+  "description": "Interactive AI-based quantum algorithm learning platform with visual circuit builder, state-vector simulation, Bloch sphere, Qiskit code editor, and intelligent debugging.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
